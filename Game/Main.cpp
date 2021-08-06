@@ -1,25 +1,74 @@
-#include <iostream>
+#include "Engine.h"
+#include "Graphics\Renderer.h"
+
 #include <SDL.h>
+#include <SDL_Image.h>
+
+#include <memory>
+#include <iostream>
 
 int main(int, char**)
 {
-	if (SDL_Init(SDL_INIT_VIDEO) != 0)
+	SDL_Point screen{ 800, 600 };
+
+	nh::Engine engine;
+	engine.Startup();
+
+	engine.Get<nh::Renderer>()->Create("GAT150", screen.x, screen.y);
+
+	nh::Scene scene;
+	scene.engine = &engine;
+
+	nh::SetFilePath("../Resources");
+
+	std::shared_ptr<nh::Texture> texture = engine.Get<nh::ResourceSystem>()->Get<nh::Texture>("sf2.png", engine.Get<nh::Renderer>());
+
+	for (int i = 0; i < 10; ++i)
 	{
-		std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
-		return 1;
+		nh::Transform transform{ {nh::RandomRangeInt(0, screen.x - 100), nh::RandomRangeInt(0, screen.y - 100)}, nh::RandomRange(0, 360), 1.0f };
+		scene.AddActor(std::make_unique<nh::Actor>(transform, texture));
 	}
 
-	SDL_Window* window = SDL_CreateWindow("GAT150", 100, 100, 800, 600, SDL_WINDOW_SHOWN); 
-	if (window == nullptr) 
-	{ 
-		std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
-		SDL_Quit(); 
-		return 1; 
-	}
+	bool quit = false;
+	SDL_Event event;
 
-	// wait for keyboard enter to exit
-	std::getchar();
+	while (!quit)
+	{
+		SDL_PollEvent(&event);
+
+		if (event.type == SDL_WINDOWEVENT)
+		{
+			switch (event.window.event)
+			{
+			case SDL_WINDOWEVENT_RESIZED:
+				screen.x = event.window.data1;
+				screen.y = event.window.data1;
+				break;
+			}
+		}
+		else
+		{
+			switch (event.type)
+			{
+			case SDL_QUIT:
+				quit = true;
+				break;
+			}
+		}
+
+		engine.Update(0.0f);
+		quit = (engine.Get<nh::InputSystem>()->GetKeyState(SDL_SCANCODE_ESCAPE) == nh::InputSystem::eKeyState::Pressed);
+
+		scene.Update(0.0f);
+
+		engine.Get<nh::Renderer>()->BeginFrame();
+
+		scene.Draw(engine.Get<nh::Renderer>());
+
+		engine.Get<nh::Renderer>()->EndFrame();
+	}
 	
 	SDL_Quit();
-	return 0; 
+	return 0;
 }
+
