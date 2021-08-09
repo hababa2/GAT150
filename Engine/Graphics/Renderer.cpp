@@ -39,7 +39,7 @@ namespace nh
 			SDL_Quit();
 		}
 
-		renderer = SDL_CreateRenderer(window, -1, 0);
+		renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_ACCELERATED);
 	}
 
 	void Renderer::BeginFrame()
@@ -65,6 +65,6 @@ namespace nh
 		Vector2 size = texture->GetSize() * transform.scale;
 		SDL_Rect dest{ (int)transform.position.x, (int)transform.position.y, (int)size.x, (int)size.y };
 
-		SDL_RenderCopyEx(renderer, texture->texture, nullptr, &dest, nh::RadToDeg(transform.rotation), nullptr, SDL_FLIP_NONE);
+		SDL_RenderCopyEx(renderer, texture->texture, nullptr, &dest, transform.rotation, nullptr, SDL_FLIP_NONE);
 	}
 }

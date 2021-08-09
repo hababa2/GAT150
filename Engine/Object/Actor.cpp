@@ -8,7 +8,7 @@ namespace nh
 {
 	void Actor::Update(float dt)
 	{
-		transform.rotation += 0.05f;
+		transform.rotation += 180.0f * dt;
 		transform.Update();
 
 		for (auto& c : children)
@@ -30,7 +30,6 @@ namespace nh
 
 	float Actor::GetRadius()
 	{
-		Vector2 v = texture->GetSize();
-		return nh::Max(v.x, v.y) * 0.5f;
+		return (texture) ? texture->GetSize().Length() * 0.5f : 0.0f;
 	}
 }

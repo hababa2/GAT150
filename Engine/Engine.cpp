@@ -23,11 +23,13 @@ namespace nh
 		}
 	}
 	
-	void Engine::Update(float dt)
+	void Engine::Update()
 	{
+		time.Tick();
+
 		for (auto& system : systems)
 		{
-			system->Update(dt);
+			system->Update(time.deltaTime);
 		}
 	}
 

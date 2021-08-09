@@ -12,6 +12,7 @@
 
 //Core
 #include "Core\FileSystem.h"
+#include "Core\Timer.h"
 
 //Graphics
 #include "Graphics\Renderer.h"
@@ -42,12 +43,15 @@ namespace nh
 		void Startup();
 		void Shutdown();
 
-		void Update(float dt);
+		void Update();
 
 		void Draw();
 
 		template<typename T>
 		T* Get();
+
+	public:
+		FrameTimer time;
 
 	private:
 		std::vector<std::unique_ptr<System>> systems;

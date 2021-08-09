@@ -36,35 +36,24 @@ int main(int, char**)
 	{
 		SDL_PollEvent(&event);
 
-		if (event.type == SDL_WINDOWEVENT)
+		switch (event.window.event)
 		{
-			switch (event.window.event)
-			{
-			case SDL_WINDOWEVENT_RESIZED:
-				screen.x = event.window.data1;
-				screen.y = event.window.data1;
-				break;
-			}
-		}
-		else
-		{
-			switch (event.type)
-			{
-			case SDL_QUIT:
-				quit = true;
-				break;
-			}
+		case SDL_WINDOWEVENT_RESIZED:
+			screen.x = event.window.data1;
+			screen.y = event.window.data1;
+			break;
+		case SDL_WINDOWEVENT_CLOSE:
+			quit = true;
 		}
 
-		engine.Update(0.0f);
-		quit = (engine.Get<nh::InputSystem>()->GetKeyState(SDL_SCANCODE_ESCAPE) == nh::InputSystem::eKeyState::Pressed);
+		//Update
+		engine.Update();
+		scene.Update(engine.time.deltaTime);
+		quit |= (engine.Get<nh::InputSystem>()->GetKeyState(SDL_SCANCODE_ESCAPE) == nh::InputSystem::eKeyState::Pressed);
 
-		scene.Update(0.0f);
-
+		//Draw
 		engine.Get<nh::Renderer>()->BeginFrame();
-
 		scene.Draw(engine.Get<nh::Renderer>());
-
 		engine.Get<nh::Renderer>()->EndFrame();
 	}
 	
