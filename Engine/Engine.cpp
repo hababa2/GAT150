@@ -6,6 +6,7 @@ namespace nh
 	{
 		systems.push_back(std::make_unique<InputSystem>());
 		systems.push_back(std::make_unique<EventSystem>());
+		systems.push_back(std::make_unique<ParticleSystem>());
 		systems.push_back(std::make_unique<Renderer>());
 		systems.push_back(std::make_unique<ResourceSystem>());
 
@@ -33,8 +34,12 @@ namespace nh
 		}
 	}
 
-	void Engine::Draw()
+	void Engine::Draw(Renderer* renderer)
 	{
-		
+		for (auto& system : systems)
+		{
+			GraphicsSystem* gs = dynamic_cast<GraphicsSystem*>(system.get());
+			if (gs) { gs->Draw(renderer); }
+		}
 	}
 }

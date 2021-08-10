@@ -1,12 +1,10 @@
 #include "InputSystem.h"
 
-#include <SDL.h>
-
 namespace nh
 {
 	void InputSystem::Startup()
 	{
-		const uint8_t* keyboardStateSDL = SDL_GetKeyboardState(&numKeys);
+		const Uint8* keyboardStateSDL = SDL_GetKeyboardState(&numKeys);
 		keyboardState.resize(numKeys);
 		std::copy(keyboardStateSDL + 0, keyboardStateSDL + numKeys, keyboardState.begin());
 		prevKeyboardState = keyboardState;
@@ -22,9 +20,17 @@ namespace nh
 		prevKeyboardState = keyboardState;
 		const Uint8* keyboardStateSDL = SDL_GetKeyboardState(nullptr);
 		std::copy(keyboardStateSDL + 0, keyboardStateSDL + numKeys, keyboardState.begin());
+
+		prevMouseButtonState = mouseButtonState;
+		int x, y;
+		Uint32 buttons = SDL_GetMouseState(&x, &y);
+		mousePosition = {x, y};
+		mouseButtonState[0] = buttons & SDL_BUTTON_LMASK;
+		mouseButtonState[1] = buttons & SDL_BUTTON_MMASK;
+		mouseButtonState[2] = buttons & SDL_BUTTON_RMASK;
 	}
 
-	InputSystem::eKeyState InputSystem::GetKeyState(int id)
+	InputSystem::eKeyState InputSystem::GetKeyState(int id) const
 	{
 		eKeyState state = eKeyState::Idle;
 		bool keyDown = IsKeyDown(id);
@@ -36,13 +42,15 @@ namespace nh
 		return state;
 	}
 
-	bool InputSystem::IsKeyDown(int id)
+	InputSystem::eKeyState InputSystem::GetButtonState(int id) const
 	{
-		return keyboardState[id];
-	}
+		eKeyState state = eKeyState::Idle;
+		bool buttonDown = IsButtonDown(id);
+		bool prevButtonDown = IsPreviousButtonDown(id);
 
-	bool InputSystem::IsPreviousKeyDown(int id)
-	{
-		return prevKeyboardState[id];
+		if (buttonDown) { state = (prevButtonDown) ? eKeyState::Held : eKeyState::Pressed; }
+		else { state = (prevButtonDown) ? eKeyState::Release : eKeyState::Idle; }
+
+		return state;
 	}
 }

@@ -17,6 +17,7 @@
 //Graphics
 #include "Graphics\Renderer.h"
 #include "Graphics\Texture.h"
+#include "Graphics\ParticleSystem.h"
 
 //Input
 #include "Input\InputSystem.h"
@@ -45,7 +46,7 @@ namespace nh
 
 		void Update();
 
-		void Draw();
+		void Draw(Renderer* renderer);
 
 		template<typename T>
 		T* Get();

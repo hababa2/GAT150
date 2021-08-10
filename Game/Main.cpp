@@ -51,9 +51,19 @@ int main(int, char**)
 		scene.Update(engine.time.deltaTime);
 		quit |= (engine.Get<nh::InputSystem>()->GetKeyState(SDL_SCANCODE_ESCAPE) == nh::InputSystem::eKeyState::Pressed);
 
+		nh::Vector2 mousePos = engine.Get<nh::InputSystem>()->GetMousePosition();
+
+		if (engine.Get<nh::InputSystem>()->GetButtonState((int)nh::InputSystem::eMouseButton::Left) == nh::InputSystem::eKeyState::Pressed)
+		{
+			engine.Get<nh::ParticleSystem>()->Create(mousePos, 1, 0.5f, texture, 0.0f);
+		}
+
 		//Draw
 		engine.Get<nh::Renderer>()->BeginFrame();
+
 		scene.Draw(engine.Get<nh::Renderer>());
+		engine.Draw(engine.Get<nh::Renderer>());
+
 		engine.Get<nh::Renderer>()->EndFrame();
 	}
 	
