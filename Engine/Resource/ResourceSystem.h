@@ -24,21 +24,21 @@ namespace nh
 
 	private:
 		std::map<std::string, std::shared_ptr<Resource>> resources;
-
 	};
 
 	template<typename T>
 	inline std::shared_ptr<T> ResourceSystem::Get(const std::string& name, void* data)
 	{
-		if (resources.find(name) != resources.end())
+		std::string n = nh::ToLower(name);
+		if (resources.find(n) != resources.end())
 		{
-			return std::dynamic_pointer_cast<T>(resources[name]);
+			return std::dynamic_pointer_cast<T>(resources[n]);
 		}
 		else
 		{
 			std::shared_ptr resource = std::make_shared<T>();
 			resource->Load(name, data);
-			resources[name] = resource;
+			resources[n] = resource;
 
 			return resource;
 		}
@@ -46,6 +46,6 @@ namespace nh
 
 	inline void ResourceSystem::Add(const std::string& name, std::shared_ptr<Resource> resource)
 	{
-		resources[name] = resource;
+		resources[nh::ToLower(name)] = resource;
 	}
 }

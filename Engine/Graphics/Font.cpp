@@ -1,5 +1,7 @@
 #include "Font.h"
 
+#include <cassert>
+
 namespace nh
 {
 	Font::~Font()
@@ -12,6 +14,7 @@ namespace nh
 
 	bool Font::Load(const std::string& name, void* data)
 	{
+		assert(data);
 		font = TTF_OpenFont(name.c_str(), *(reinterpret_cast<int*>(data)));
 
 		if (font == nullptr) 

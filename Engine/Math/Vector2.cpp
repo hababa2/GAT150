@@ -18,8 +18,8 @@ namespace nh
 
 		if (line.find("{", 0) != std::string::npos)
 		{
-			int p1 = line.find('{');
-			int p2 = line.find(',');
+			size_t p1 = line.find('{');
+			size_t p2 = line.find(',');
 
 			std::string x = line.substr(p1 + 1, p2 - p1 - 1);
 			std::string y = line.substr(p2 + 1, line.find('}') - p2 - 1);

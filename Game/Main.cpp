@@ -1,11 +1,11 @@
 #include "Engine.h"
 #include "Graphics\Renderer.h"
-#include "Graphics\Font.h"
 
 #include <SDL.h>
 #include <SDL_Image.h>
 
 #include <memory>
+#include <cassert>
 #include <iostream>
 
 int main(int, char**)
@@ -28,13 +28,14 @@ int main(int, char**)
 	nh::AudioChannel channel = engine.Get<nh::AudioSystem>()->PlayAudio("Music", 1.0f, 1.0f, true);
 
 	std::shared_ptr<nh::Texture> texture = engine.Get<nh::ResourceSystem>()->Get<nh::Texture>("Textures/sf2.png", engine.Get<nh::Renderer>());
-	std::shared_ptr<nh::Texture> explosion = engine.Get<nh::ResourceSystem>()->Get<nh::Texture>("Textures/explosion.png", engine.Get<nh::Renderer>());
+	std::shared_ptr<nh::Texture> explosion1 = engine.Get<nh::ResourceSystem>()->Get<nh::Texture>("Textures/explosion1.png", engine.Get<nh::Renderer>());
+	std::shared_ptr<nh::Texture> explosion2 = engine.Get<nh::ResourceSystem>()->Get<nh::Texture>("Textures/explosion2.png", engine.Get<nh::Renderer>());
 
 	int size = 32;
 	std::shared_ptr<nh::Font> font = engine.Get<nh::ResourceSystem>()->Get<nh::Font>("Fonts/CHELON.ttf", &size);
 
 	std::shared_ptr<nh::Texture> textTexture = std::make_shared<nh::Texture>(engine.Get<nh::Renderer>());
-	textTexture->Create(font->CreateSurface("hello world", nh::Color{ 1, 1, 1 }));
+	textTexture->Create(font->CreateSurface("Hello, World!", nh::Color{ 1, 1, 1 }));
 	engine.Get<nh::ResourceSystem>()->Add("textTexture", textTexture);
 
 	for (int i = 0; i < 10; ++i)
@@ -69,7 +70,8 @@ int main(int, char**)
 
 		if (engine.Get<nh::InputSystem>()->GetButtonState((int)nh::InputSystem::eMouseButton::Left) == nh::InputSystem::eKeyState::Pressed)
 		{
-			engine.Get<nh::ParticleSystem>()->Create(mousePos, 10, 0.5f, explosion, 300.0f);
+			engine.Get<nh::ParticleSystem>()->Create(mousePos, 1, 0.25f, explosion1, 0.0f);
+			engine.Get<nh::ParticleSystem>()->Create(mousePos, 10, 0.5f, explosion2, 300.0f);
 			engine.Get<nh::AudioSystem>()->PlayAudio("Explosion", 1, nh::RandomRange(0.2f, 2.0f), false);
 			channel.SetPitch(nh::RandomRange(0.2f, 2.0f));
 		}
