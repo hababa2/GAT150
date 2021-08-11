@@ -37,15 +37,22 @@ namespace nh
 		}
 	}
 
-	void AudioSystem::PlayAudio(const std::string& name)
+	AudioChannel AudioSystem::PlayAudio(const std::string& name, float volume, float pitch, bool loop)
 	{
 		auto iter = sounds.find(name);
 		if (iter != sounds.end())
 		{
 			FMOD::Sound* sound = iter->second;
-			sound->setMode(FMOD_LOOP_OFF);
+			sound->setMode(FMOD_LOOP_OFF + loop);
 			FMOD::Channel* channel;
-			fmodSystem->playSound(sound, 0, false, &channel);
+			fmodSystem->playSound(sound, 0, true, &channel);
+			channel->setVolume(volume);
+			channel->setPitch(pitch);
+			channel->setPaused(false);
+
+			return AudioChannel{ channel };
 		}
+
+		return AudioChannel{};
 	}
 }

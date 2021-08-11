@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <SDL_ttf.h>
 
 namespace nh
 {
@@ -19,6 +20,7 @@ namespace nh
 		friend std::istream& operator>> (std::istream& stream, Color& c);
 
 		operator std::uint32_t() const { return ToRGB(); }
+		operator SDL_Color() const { return ToSDL_Color(); }
 
 		std::uint32_t ToRGB() const
 		{
@@ -26,6 +28,16 @@ namespace nh
 			std::uint8_t green = static_cast<std::uint8_t>(g * 255);
 			std::uint8_t blue = static_cast<std::uint8_t>(b * 255);
 			return red | (green << 8) | (blue << 16);
+		}
+
+		SDL_Color ToSDL_Color() const
+		{
+			std::uint8_t red = static_cast<std::uint8_t>(r * 255);
+			std::uint8_t green = static_cast<std::uint8_t>(g * 255);
+			std::uint8_t blue = static_cast<std::uint8_t>(b * 255);
+			std::uint8_t alpha = 255;
+
+			return SDL_Color{ red, green, blue, alpha };
 		}
 
 		static const Color white;

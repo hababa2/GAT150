@@ -5,6 +5,11 @@
 
 namespace nh
 {
+	Texture::Texture(Renderer* renderer)
+	{
+		this->renderer = renderer->renderer;
+	}
+
 	bool Texture::Load(const std::string& filename, void* data)
 	{
 		renderer = reinterpret_cast<Renderer*>(data)->renderer;
@@ -17,6 +22,20 @@ namespace nh
 			return false;
 		}
 
+		texture = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+
+		if (!texture)
+		{
+			std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError() << std::endl;
+			return false;
+		}
+
+		return true;
+	}
+
+	bool Texture::Create(SDL_Surface* surface)
+	{
 		texture = SDL_CreateTextureFromSurface(renderer, surface);
 		SDL_FreeSurface(surface);
 

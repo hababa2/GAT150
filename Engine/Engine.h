@@ -1,8 +1,5 @@
 #pragma once
 
-//Audio
-//#include "Audio\AudioSystem.h"
-
 //Math
 #include "Math\Vector2.h"
 #include "Math\Color.h"
@@ -18,6 +15,9 @@
 #include "Graphics\Renderer.h"
 #include "Graphics\Texture.h"
 #include "Graphics\ParticleSystem.h"
+
+//Audio
+#include "Audio\AudioSystem.h"
 
 //Input
 #include "Input\InputSystem.h"
