@@ -18,7 +18,7 @@ namespace nh
 
 		SDL_Surface* surface = IMG_Load(filename.c_str());
 
-		assert(surface);
+		//assert(surface);
 		if (!surface)
 		{
 			std::cout << "IMG_Load Error: " << SDL_GetError() << std::endl;

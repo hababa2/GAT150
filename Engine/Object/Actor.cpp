@@ -8,7 +8,6 @@ namespace nh
 {
 	void Actor::Update(float dt)
 	{
-		transform.rotation += 180.0f * dt;
 		transform.Update();
 
 		for (auto& c : children)
@@ -19,7 +18,12 @@ namespace nh
 
 	void Actor::Draw(Renderer* renderer)
 	{
-		renderer->Draw(texture, transform);
+		if (texture) { renderer->Draw(texture, transform); }
+
+		for (auto& c : children)
+		{
+			c->Draw(renderer);
+		}
 	}
 
 	void Actor::AddChild(std::unique_ptr<Actor> a)
