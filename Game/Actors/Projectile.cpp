@@ -9,8 +9,4 @@ void Projectile::Update(float dt)
 		transform.position.y > 700.0f || transform.position.y < -100.0f);
 
 	Actor::Update(dt);
-
-	std::vector<nh::Color> colors{ nh::Color::white, nh::Color::red, nh::Color::blue };
-	scene->engine->Get<nh::ParticleSystem>()->Create(transform.position, 10, 2.0f, 
-		scene->engine->Get<nh::ResourceSystem>()->Get<nh::Texture>("Textures/explosion1.png"), 1.0f);
 }

@@ -58,16 +58,16 @@ namespace nh
 	void Renderer::Draw(std::shared_ptr<Texture> texture, const Vector2& pos, float angle, const Vector2& scale)
 	{
 		Vector2 size = texture->GetSize() * scale;
-		SDL_Rect dest{ (int)pos.x, (int)pos.y, (int)size.x, (int)size.y };
+		SDL_Rect dest{ (int)pos.x - (size.x / 2.0f), (int)pos.y - (size.y / 2.0f), (int)size.x, (int)size.y };
 
-		SDL_RenderCopyEx(renderer, texture->texture, nullptr, &dest, angle, nullptr, SDL_FLIP_NONE);
+		SDL_RenderCopyEx(renderer, texture->texture, nullptr, &dest, RadToDeg(angle), nullptr, SDL_FLIP_NONE);
 	}
 
-	void Renderer::Draw(std::shared_ptr<Texture> texture, const Transform& transform)
+	void Renderer::Draw(std::shared_ptr<Texture> texture, const Transform& transform, bool center)
 	{
 		Vector2 size = texture->GetSize() * transform.scale;
-		SDL_Rect dest{ (int)transform.position.x, (int)transform.position.y, (int)size.x, (int)size.y };
+		SDL_Rect dest{ (int)transform.position.x - (size.x / 2.0f * center), (int)transform.position.y - (size.y / 2.0f * center), (int)size.x, (int)size.y };
 
-		SDL_RenderCopyEx(renderer, texture->texture, nullptr, &dest, transform.rotation, nullptr, SDL_FLIP_NONE);
+		SDL_RenderCopyEx(renderer, texture->texture, nullptr, &dest, RadToDeg(transform.rotation), nullptr, SDL_FLIP_NONE);
 	}
 }

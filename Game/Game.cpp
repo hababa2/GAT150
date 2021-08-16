@@ -15,9 +15,10 @@ void Game::Initialize()
 	nh::SetFilePath("../Resources");
 	engine->Get<nh::AudioSystem>()->AddAudio("Explosion", "Audio/explosion.wav");
 	engine->Get<nh::AudioSystem>()->AddAudio("Laser", "Audio/laser.wav");
-	engine->Get<nh::AudioSystem>()->AddAudio("Music", "Audio/music.wav");
-	musicChannel = engine->Get<nh::AudioSystem>()->PlayAudio("Music", 1.0f, 1.0f, true);
+	//engine->Get<nh::AudioSystem>()->AddAudio("Music", "Audio/music.wav");
+	//musicChannel = engine->Get<nh::AudioSystem>()->PlayAudio("Music", 1.0f, 1.0f, true);
 
+	engine->Get<nh::ResourceSystem>()->Get<nh::Texture>("Textures/Background.jpg", engine->Get<nh::Renderer>());
 	engine->Get<nh::ResourceSystem>()->Get<nh::Texture>("Textures/explosion1.png", engine->Get<nh::Renderer>());
 	engine->Get<nh::ResourceSystem>()->Get<nh::Texture>("Textures/explosion2.png", engine->Get<nh::Renderer>());
 	engine->Get<nh::ResourceSystem>()->Get<nh::Texture>("Textures/Asteroid23.png", engine->Get<nh::Renderer>());
@@ -30,14 +31,32 @@ void Game::Initialize()
 	engine->Get<nh::ResourceSystem>()->Get<nh::Texture>("Textures/Asteroid02.png", engine->Get<nh::Renderer>());
 	engine->Get<nh::ResourceSystem>()->Get<nh::Texture>("Textures/Asteroid01.png", engine->Get<nh::Renderer>());
 	engine->Get<nh::ResourceSystem>()->Get<nh::Texture>("Textures/Player.png", engine->Get<nh::Renderer>());
+	engine->Get<nh::ResourceSystem>()->Get<nh::Texture>("Textures/PlayerLaser.png", engine->Get<nh::Renderer>());
 	engine->Get<nh::ResourceSystem>()->Get<nh::Texture>("Textures/Alien.png", engine->Get<nh::Renderer>());
+	engine->Get<nh::ResourceSystem>()->Get<nh::Texture>("Textures/AlienLaser.png", engine->Get<nh::Renderer>());
 
-	int size = 32;
-	std::shared_ptr<nh::Font> font = engine->Get<nh::ResourceSystem>()->Get<nh::Font>("Fonts/CHELON.ttf", &size);
+	int size = 16;
+	font = engine->Get<nh::ResourceSystem>()->Get<nh::Font>("Fonts/CHELON.ttf", &size);
 
-	textTexture = std::make_shared<nh::Texture>(engine->Get<nh::Renderer>());
-	textTexture->Create(font->CreateSurface("Hello, World!", nh::Color{ 1, 1, 1 }));
-	engine->Get<nh::ResourceSystem>()->Add("textTexture", textTexture);
+	std::shared_ptr<nh::Texture> scoreText = std::make_shared<nh::Texture>(engine->Get<nh::Renderer>());
+	scoreText->Create(font->CreateSurface(("Score: " + std::to_string(score)).c_str(), nh::Color::white));
+	engine->Get<nh::ResourceSystem>()->Add("Score", scoreText);
+
+	std::shared_ptr<nh::Texture> highScoreText = std::make_shared<nh::Texture>(engine->Get<nh::Renderer>());
+	highScoreText->Create(font->CreateSurface(("High Score: " + std::to_string(highScore)).c_str(), nh::Color::white));
+	engine->Get<nh::ResourceSystem>()->Add("HighScore", highScoreText);
+
+	std::shared_ptr<nh::Texture> livesText = std::make_shared<nh::Texture>(engine->Get<nh::Renderer>());
+	livesText->Create(font->CreateSurface(("Lives: " + std::to_string(3)).c_str(), nh::Color::white));
+	engine->Get<nh::ResourceSystem>()->Add("Lives", livesText);
+
+	std::shared_ptr<nh::Texture> topText = std::make_shared<nh::Texture>(engine->Get<nh::Renderer>());
+	topText->Create(font->CreateSurface("ASEROIDS", nh::Color::blue));
+	engine->Get<nh::ResourceSystem>()->Add("TopText", topText);
+
+	std::shared_ptr<nh::Texture> bottomText = std::make_shared<nh::Texture>(engine->Get<nh::Renderer>());
+	bottomText->Create(font->CreateSurface("PRESS SPACE TO START", nh::Color::blue));
+	engine->Get<nh::ResourceSystem>()->Add("BottomText", bottomText);
 
 	engine->Get<nh::EventSystem>()->Subscribe("AddPoints", std::bind(&Game::OnAddPoints, this, std::placeholders::_1));
 	engine->Get<nh::EventSystem>()->Subscribe("PlayerHit", std::bind(&Game::OnPlayerHit, this, std::placeholders::_1));
@@ -55,6 +74,7 @@ void Game::Shutdown()
 void Game::Update()
 {
 	float dt = engine->time.deltaTime;
+	stateTimer += dt;
 
 	switch (state)
 	{
@@ -99,12 +119,21 @@ void Game::Update()
 
 void Game::Draw()
 {
+	engine->Get<nh::Renderer>()->BeginFrame();
+
+	engine->Get<nh::Renderer>()->Draw(engine->Get<nh::ResourceSystem>()->Get<nh::Texture>("Textures/Background.jpg"), 0.0f, 0.0f, 1.7f);
+	scene->Draw(engine->Get<nh::Renderer>());
+	engine->Draw(engine->Get<nh::Renderer>());
+	engine->Get<nh::Renderer>()->Draw(engine->Get<nh::ResourceSystem>()->Get<nh::Texture>("Score"), nh::Transform{ {10, 10} }, false);
+	engine->Get<nh::Renderer>()->Draw(engine->Get<nh::ResourceSystem>()->Get<nh::Texture>("HighScore"), nh::Transform{ {10, 30} }, false);
+	engine->Get<nh::Renderer>()->Draw(engine->Get<nh::ResourceSystem>()->Get<nh::Texture>("Lives"), nh::Transform{ {740, 10} }, false);
+
 	switch (state)
 	{
 	case Game::eState::Title:
-		//graphics.SetColor(nh::Color::blue);
-		//graphics.DrawString(380, 300 + static_cast<int>(std::sin(stateTimer * 3.0f) * 4.0f), "ASTEROIDS");
-		//graphics.DrawString(340, 400, "PRESS SPACE TO START");
+		engine->Get<nh::Renderer>()->Draw(engine->Get<nh::ResourceSystem>()->Get<nh::Texture>("TopText"), 
+			nh::Transform{ {400, 300 + static_cast<int>(std::sin(stateTimer * 3.0f) * 4.0f)} });
+		engine->Get<nh::Renderer>()->Draw(engine->Get<nh::ResourceSystem>()->Get<nh::Texture>("BottomText"), nh::Transform{ {400, 400} });
 		break;
 	case Game::eState::StartGame:
 		break;
@@ -113,25 +142,13 @@ void Game::Draw()
 	case Game::eState::Game:
 		break;
 	case Game::eState::GameOver:
-		//graphics.SetColor(nh::Color::red);
-		//graphics.DrawString(380, 300 + static_cast<int>(std::sin(stateTimer * 3.0f) * 4.0f), "GAME OVER");
-		//graphics.DrawString(340, 400, "PRESS SPACE TO RESTART");
+		engine->Get<nh::Renderer>()->Draw(engine->Get<nh::ResourceSystem>()->Get<nh::Texture>("TopText"),
+			nh::Transform{ {400, 300 + static_cast<int>(std::sin(stateTimer * 3.0f) * 4.0f)} });
+		engine->Get<nh::Renderer>()->Draw(engine->Get<nh::ResourceSystem>()->Get<nh::Texture>("BottomText"), nh::Transform{ {400, 400} });
 		break;
 	default:
 		break;
 	}
-
-	//graphics.DrawString(30, 20, ("Score: " + std::to_string(score)).c_str());
-	//graphics.DrawString(30, 30, ("High Score: " + std::to_string(highScore)).c_str());
-	//graphics.DrawString(720, 20, ("Lives: " + std::to_string(lives)).c_str());
-
-	engine->Get<nh::Renderer>()->BeginFrame();
-
-	scene->Draw(engine->Get<nh::Renderer>());
-	engine->Draw(engine->Get<nh::Renderer>());
-	nh::Transform t;
-	t.position = { 30, 30 };
-	engine->Get<nh::Renderer>()->Draw(textTexture, t);
 
 	engine->Get<nh::Renderer>()->EndFrame();
 }
@@ -143,9 +160,13 @@ void Game::UpdateTitle(float dt)
 
 void Game::UpdateStartLevel(float dt)
 {
+	std::shared_ptr<nh::Texture> scoreText = engine->Get<nh::ResourceSystem>()->Get<nh::Texture>("Score");
+	scoreText->Create(font->CreateSurface(("Score: " + std::to_string(score)).c_str(), nh::Color::white));
+	engine->Get<nh::ResourceSystem>()->Add("Score", scoreText);
+
 	scene->RemoveAll();
 
-	scene->AddActor(std::make_unique<Player>(nh::Transform{ { 400, 300 }, 0.0f, 0.5f},
+	scene->AddActor(std::make_unique<Player>(nh::Transform{ { 400, 300 }, 0.0f},
 		engine->Get<nh::ResourceSystem>()->Get<nh::Texture>("Textures/Player.png"), 200.0f));
 	scene->GetActor<Player>()->Initialize();
 	notSpawned = false;
@@ -192,7 +213,15 @@ void Game::OnAddPoints(const nh::Event& e)
 {
 	score += std::get<int>(e.data);
 	highScore = nh::Max(score, highScore);
-}
+
+	std::shared_ptr<nh::Texture> scoreText = engine->Get<nh::ResourceSystem>()->Get<nh::Texture>("Score");
+	scoreText->Create(font->CreateSurface(("Score: " + std::to_string(score)).c_str(), nh::Color::white));
+	engine->Get<nh::ResourceSystem>()->Add("Score", scoreText);
+	std::shared_ptr<nh::Texture> highScoreText = engine->Get<nh::ResourceSystem>()->Get<nh::Texture>("HighScore");
+	highScoreText->Create(font->CreateSurface(("High Score: " + std::to_string(highScore)).c_str(), nh::Color::white));
+	engine->Get<nh::ResourceSystem>()->Add("HighScore", highScoreText);
+}	
+
 
 void Game::OnPlayerHit(const nh::Event& e)
 {
@@ -207,7 +236,11 @@ void Game::OnPlayerHit(const nh::Event& e)
 		p->destroy = true;
 		notSpawned = true;
 	
-		if (--lives == 0)
+		std::shared_ptr<nh::Texture> livesText = engine->Get<nh::ResourceSystem>()->Get<nh::Texture>("Lives");
+		livesText->Create(font->CreateSurface(("Lives: " + std::to_string(--lives)).c_str(), nh::Color::white));
+		engine->Get<nh::ResourceSystem>()->Add("Lives", livesText);
+
+		if (lives == 0)
 		{
 			state = eState::GameOver;
 		}

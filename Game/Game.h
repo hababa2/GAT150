@@ -49,6 +49,6 @@ private:
 
 	bool quit{ false };
 	nh::AudioChannel musicChannel;
-	std::shared_ptr<nh::Texture> textTexture;
+	std::shared_ptr<nh::Font> font;
 };
 

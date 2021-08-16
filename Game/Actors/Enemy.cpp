@@ -20,10 +20,9 @@ void Enemy::Update(float dt)
 			scene->engine->Get<nh::AudioSystem>()->PlayAudio("shoot");
 			fireTimer = fireRate;
 			nh::Transform t = transform;
-			t.scale = 0.5f;
 			t.rotation = nh::RandomRange(0, nh::TwoPi);
 			std::unique_ptr<Projectile> p = std::make_unique<Projectile>(t,
-				scene->engine->Get<nh::ResourceSystem>()->Get<nh::Texture>("Textures/Player.png"), 600.0f);
+				scene->engine->Get<nh::ResourceSystem>()->Get<nh::Texture>("Textures/AlienLaser.png"), 600.0f);
 			p->tag = "Enemy";
 			scene->AddActor(std::move(p));
 		}
@@ -44,9 +43,9 @@ void Enemy::OnCollision(Actor* actor)
 	{
 		actor->destroy = true;
 
-		scene->engine->Get<nh::ParticleSystem>()->Create(transform.position, 200, 2.0f, 
-			scene->engine->Get<nh::ResourceSystem>()->Get<nh::Texture>("Textures/explosion1.png"), 50.0f);
-		scene->engine->Get<nh::AudioSystem>()->PlayAudio("explosion");
+		scene->engine->Get<nh::ParticleSystem>()->Create(transform.position, 1, 0.5f, 
+			scene->engine->Get<nh::ResourceSystem>()->Get<nh::Texture>("Textures/explosion1.png"), 0.0f);
+		scene->engine->Get<nh::AudioSystem>()->PlayAudio("explosion", 0.1f);
 		nh::Event e1{ "AddPoints", 100 * size };
 		nh::Event e2{ "EnemyHit", this };
 		scene->engine->Get<nh::EventSystem>()->Notify(e1);
