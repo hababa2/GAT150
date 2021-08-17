@@ -3,11 +3,17 @@
 #include "Graphics\Texture.h"
 #include "Graphics\Renderer.h"
 #include "Math/MathUtils.h"
+#include "Component\GraphicsComponent.h"
 
 namespace nh
 {
 	void Actor::Update(float dt)
 	{
+		for (auto& c : components)
+		{
+			c->Update();
+		}
+
 		transform.Update();
 
 		for (auto& c : children)
@@ -18,7 +24,14 @@ namespace nh
 
 	void Actor::Draw(Renderer* renderer)
 	{
-		if (texture) { renderer->Draw(texture, transform); }
+		for (auto& c : components)
+		{
+			GraphicsComponent* g;
+			if (g = dynamic_cast<GraphicsComponent*>(c.get()))
+			{
+				g->Draw(renderer);
+			}
+		}
 
 		for (auto& c : children)
 		{
@@ -34,6 +47,12 @@ namespace nh
 
 	float Actor::GetRadius()
 	{
-		return (texture) ? texture->GetSize().Length() * 0.5f : 0.0f;
+		return 0.0f;
+	}
+
+	void Actor::AddComponent(std::unique_ptr<Component> component)
+	{
+		component->owner = this;
+		components.push_back(std::move(component));
 	}
 }

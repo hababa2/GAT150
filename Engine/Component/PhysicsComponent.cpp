@@ -1,0 +1,15 @@
+#include "PhysicsComponent.h"
+
+#include "Object\Actor.h"
+#include "Engine.h"
+
+namespace nh
+{
+	void PhysicsComponent::Update()
+	{
+		velocity += acceleration * owner->scene->engine->time.deltaTime;
+		owner->transform.position += velocity * owner->scene->engine->time.deltaTime;
+		owner->transform.position.x = nh::Wrap((int)owner->transform.position.x, -10, 810);
+		owner->transform.position.y = nh::Wrap((int)owner->transform.position.y, -10, 810);
+	}
+}
