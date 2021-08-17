@@ -12,6 +12,7 @@ void Game::Initialize()
 	scene = std::make_unique<nh::Scene>();
 	scene->engine = engine.get();
 
+	nh::SeedRandom(static_cast<unsigned int>(time(nullptr)));
 	nh::SetFilePath("../Resources");
 	engine->Get<nh::AudioSystem>()->AddAudio("Explosion", "Audio/explosion.wav");
 	engine->Get<nh::AudioSystem>()->AddAudio("Laser", "Audio/laser.wav");
