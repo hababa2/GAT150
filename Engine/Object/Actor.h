@@ -29,7 +29,9 @@ namespace nh
 
 		float GetRadius();
 
-		void AddComponent(std::unique_ptr<Component> component);
+		void AddComponent(std::unique_ptr<Component> cmp);
+		template<typename T>
+		T* AddComponent();
 
 	public:
 		bool destroy{ false };
@@ -43,4 +45,16 @@ namespace nh
 
 		std::vector<std::unique_ptr<Component>> components;
 	};
+
+	template<typename T>
+	inline T* Actor::AddComponent()
+	{
+		std::unique_ptr<T> component = std::make_unique<T>();
+
+		component->owner = this;
+		T* c = component.get();
+		components.push_back(std::move(component));
+
+		return c;
+	}
 }

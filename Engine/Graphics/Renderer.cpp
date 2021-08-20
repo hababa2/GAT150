@@ -70,4 +70,12 @@ namespace nh
 
 		SDL_RenderCopyEx(renderer, texture->texture, nullptr, &dest, RadToDeg(transform.rotation), nullptr, SDL_FLIP_NONE);
 	}
+	
+	void Renderer::Draw(std::shared_ptr<Texture> texture, const SDL_Rect& source, const Transform& transform)
+	{
+		SDL_Rect dest{ (int)transform.position.x - source.w, (int)transform.position.y - source.h, 
+			(int)source.w * transform.scale.x, (int)source.h * transform.scale.y };
+
+		SDL_RenderCopyEx(renderer, texture->texture, &source, &dest, RadToDeg(transform.rotation), nullptr, SDL_FLIP_NONE);
+	}
 }

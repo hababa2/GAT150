@@ -1,5 +1,10 @@
 #pragma once
 
+//Core
+#include "Core\Utilities.h"
+#include "Core\FileSystem.h"
+#include "Core\Timer.h"
+
 //Math
 #include "Math\Vector2.h"
 #include "Math\Color.h"
@@ -7,10 +12,10 @@
 #include "Math\MathUtils.h"
 #include "Math\Transform.h"
 
-//Core
-#include "Core\Utilities.h"
-#include "Core\FileSystem.h"
-#include "Core\Timer.h"
+//Framework
+#include "Framework\EventSystem.h"
+#include "Framework\Singleton.h"
+#include "Framework\Factory.h"
 
 //Graphics
 #include "Graphics\Font.h"
@@ -24,9 +29,6 @@
 //Input
 #include "Input\InputSystem.h"
 
-//Framework
-#include "Framework\EventSystem.h"
-
 //Resource
 #include "Resource\ResourceSystem.h"
 
@@ -35,15 +37,19 @@
 #include "Object\Scene.h"
 
 //Components
-#include "Component\SpriteComponent.h"
+#include "Component\SpriteAnimationComponent.h"
 #include "Component\PhysicsComponent.h"
 
 #include <vector>
 #include <memory>
 #include <algorithm>
 
+#include "box2d\box2d.h"
+
 namespace nh
 {
+	typedef Singleton<Factory<std::string, Object>> ObjectFactory;
+
 	class Engine
 	{
 	public:

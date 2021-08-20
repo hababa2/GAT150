@@ -50,9 +50,9 @@ namespace nh
 		return 0.0f;
 	}
 
-	void Actor::AddComponent(std::unique_ptr<Component> component)
+	void Actor::AddComponent(std::unique_ptr<Component> cmp)
 	{
-		component->owner = this;
-		components.push_back(std::move(component));
+		cmp->owner = this;
+		components.push_back(std::move(cmp));
 	}
 }

@@ -24,6 +24,7 @@ namespace nh
 
 		void Draw(std::shared_ptr<Texture> texture, const Vector2& pos, float angle = 0, const Vector2& scale = Vector2::one);
 		void Draw(std::shared_ptr<Texture> texture, const Transform& transform, bool center = true);
+		void Draw(std::shared_ptr<Texture> texture, const SDL_Rect& source, const Transform& transform);
 
 	private:
 		SDL_Renderer* renderer{ nullptr };

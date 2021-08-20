@@ -4,6 +4,7 @@ namespace nh
 {
 	class Object
 	{
-		//
+	public:
+		virtual ~Object() {}
 	};
 }

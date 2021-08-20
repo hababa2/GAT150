@@ -12,16 +12,18 @@ void Game::Initialize()
 	nh::SeedRandom(static_cast<unsigned int>(time(nullptr)));
 	nh::SetFilePath("../Resources");
 
-	std::unique_ptr<nh::Actor> actor = std::make_unique<nh::Actor>(nh::Transform{ {400, 300} });
+	std::unique_ptr<nh::Actor> actor = std::make_unique<nh::Actor>(nh::Transform{ {400, 300}, 0.0f, 2.0f });
+	
+	auto anmcmp = nh::ObjectFactory::Instance().Create<nh::SpriteAnimationComponent>("SpriteAnimationComponent");
+	anmcmp->texture = engine->Get<nh::ResourceSystem>()->Get<nh::Texture>("Textures/Sparkle.png", engine->Get<nh::Renderer>());
+	anmcmp->fps = 24; 
+	anmcmp->framesX = 8; 
+	anmcmp->framesY = 8;
+	actor->AddComponent(std::move(anmcmp));
 
-	std::unique_ptr<nh::SpriteComponent> sprtcmp = std::make_unique<nh::SpriteComponent>();
-	sprtcmp->texture = engine->Get<nh::ResourceSystem>()->Get<nh::Texture>("Textures/Player.png", engine->Get<nh::Renderer>());
+	nh::PhysicsComponent* phscmp = actor->AddComponent<nh::PhysicsComponent>();
+	//phscmp->ApplyForce(nh::Vector2::right * 20);
 
-	std::unique_ptr<nh::PhysicsComponent> phscmp = std::make_unique<nh::PhysicsComponent>();
-	phscmp->ApplyForce(nh::Vector2::right * 20);
-
-	actor->AddComponent(std::move(sprtcmp));
-	actor->AddComponent(std::move(phscmp));
 	scene->AddActor(std::move(actor));
 }
 

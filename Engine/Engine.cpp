@@ -15,6 +15,8 @@ namespace nh
 		{
 			system->Startup();
 		}
+
+		ObjectFactory::Instance().Register<SpriteAnimationComponent>("SpriteAnimationComponent");
 	}
 	
 	void Engine::Shutdown()
