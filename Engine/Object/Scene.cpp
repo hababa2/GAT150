@@ -1,6 +1,6 @@
 #include "Scene.h"
 
-#include "Actor.h"
+#include "Engine.h"
 
 namespace nh
 {
@@ -51,5 +51,32 @@ namespace nh
 	void Scene::RemoveAll()
 	{
 		actors.clear();
+	}
+
+	bool Scene::Write(const rapidjson::Value& value) const
+	{
+		return false;
+	}
+
+	bool Scene::Read(const rapidjson::Value& value)
+	{
+		if (value.HasMember("actors") && value["actors"].IsArray())
+		{
+			for (auto& a : value["actors"].GetArray())
+			{
+				std::string type;
+				JSON_READ(a, type);
+
+				auto actor = ObjectFactory::Instance().Create<Actor>(type);
+				if (actor)
+				{
+					actor->scene = this;
+					actor->Read(a);
+					AddActor(std::move(actor));
+				}
+			}
+		}
+
+		return true;
 	}
 }

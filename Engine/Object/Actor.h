@@ -3,6 +3,7 @@
 #include "Object.h"
 #include "Math\Transform.h"
 #include "Component\Component.h"
+#include "Core\Serializable.h"
 
 #include <memory>
 #include <vector>
@@ -12,7 +13,7 @@ namespace nh
 	class Scene;
 	class Renderer;
 
-	class Actor : public Object
+	class Actor : public Object, public ISerializable
 	{
 	public:
 		Actor() {}
@@ -28,6 +29,9 @@ namespace nh
 		void AddChild(std::unique_ptr<Actor> a);
 
 		float GetRadius();
+
+		virtual bool Write(const rapidjson::Value& value) const override;
+		virtual bool Read(const rapidjson::Value& value) override;
 
 		void AddComponent(std::unique_ptr<Component> cmp);
 		template<typename T>

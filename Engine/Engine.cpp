@@ -17,9 +17,9 @@ namespace nh
 		}
 
 		REGISTER_CLASS(Actor);
-		REGISTER_CLASS(PhysicsComponent);
-		REGISTER_CLASS(SpriteAnimationComponent);
 		REGISTER_CLASS(SpriteComponent);
+		REGISTER_CLASS(SpriteAnimationComponent);
+		REGISTER_CLASS(PhysicsComponent);
 	}
 	
 	void Engine::Shutdown()

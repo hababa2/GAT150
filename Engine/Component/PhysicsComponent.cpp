@@ -12,4 +12,14 @@ namespace nh
 		owner->transform.position.x = (float)nh::Wrap((int)owner->transform.position.x, -10, 810);
 		owner->transform.position.y = (float)nh::Wrap((int)owner->transform.position.y, -10, 810);
 	}
+
+	bool PhysicsComponent::Write(const rapidjson::Value& value) const
+	{
+		return false;
+	}
+
+	bool PhysicsComponent::Read(const rapidjson::Value& value)
+	{
+		return true;
+	}
 }

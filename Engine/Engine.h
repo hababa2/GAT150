@@ -4,6 +4,7 @@
 #include "Core\Utilities.h"
 #include "Core\FileSystem.h"
 #include "Core\Timer.h"
+#include "Core\Serializable.h"
 
 //Math
 #include "Math\Vector2.h"
@@ -46,7 +47,7 @@
 
 #include "box2d\box2d.h"
 
-#define REGISTER_CLASS(T) ObjectFactory::Instance().Register<T>(#T);
+#define REGISTER_CLASS(T) ObjectFactory::Instance().Register<T>(#T)
 
 namespace nh
 {

@@ -35,7 +35,7 @@ namespace nh
 
 		bool Get(const rapidjson::Value& value, const std::string& name, float& data)
 		{
-			if (value.HasMember(name.c_str()) == false || value[name.c_str()].IsFloat() == false)
+			if (value.HasMember(name.c_str()) == false || value[name.c_str()].IsNumber() == false)
 			{
 				return false;
 			}

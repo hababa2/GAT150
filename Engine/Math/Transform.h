@@ -1,10 +1,11 @@
 #pragma once
 
 #include "Matrix3.h"
+#include "Core\Serializable.h"
 
 namespace nh
 {
-	struct Transform
+	struct Transform : public ISerializable
 	{
 		Transform() : position{ 0.0f, 0.0f }, rotation{ 0.0f }, scale{ 1.0f }, lPosition{ 0.0f }, lScale{ 1.0f }, lRotation{ 0.0f }{}
 		Transform(const Vector2& position, float rotation = 0, float scale = 1) : 
@@ -21,5 +22,8 @@ namespace nh
 
 		void Update();
 		void Update(const Matrix33& mx);
+
+		bool Write(const rapidjson::Value& value) const override;
+		bool Read(const rapidjson::Value& value) override;
 	};
 }

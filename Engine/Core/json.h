@@ -6,6 +6,8 @@
 #include "document.h"
 #include <string>
 
+#define JSON_READ(value, data) nh::json::Get(value, #data, data)
+
 namespace nh
 {
 	namespace json
