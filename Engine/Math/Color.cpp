@@ -36,4 +36,11 @@ namespace nh
 
 		return stream;
 	}
+
+	std::ostream& operator<<(std::ostream& stream, Color& c)
+	{
+		std::cout << c.r << ", " << c.g << ", " << c.b << std::endl;
+
+		return stream;
+	}
 }

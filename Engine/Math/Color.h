@@ -13,11 +13,15 @@ namespace nh
 		Color(float r, float g, float b) : r{ r }, g{ g }, b{ b } {}
 		Color(std::uint32_t rgb) : r{ (rgb & 0xFF) / 255.f }, g{ (rgb & 0xFF00) / 255.f }, b{ (rgb & 0xFF0000) / 255.f } {}
 
+		float& operator[] (size_t i) { return (&r)[i]; }
+		const float operator[] (size_t i) const { return (&r)[i]; }
+
 		Color operator+ (const Color& c) const { return { r + c.r, g + c.g, b + c.b }; }
 		Color operator- (const Color& c) const { return { r - c.r, g - c.g, b - c.b }; }
 		Color operator* (float s) const { return { r * s, g * s, b * s }; }
 
 		friend std::istream& operator>> (std::istream& stream, Color& c);
+		friend std::ostream& operator<< (std::ostream& stream, Color& c);
 
 		operator std::uint32_t() const { return ToRGB(); }
 		operator SDL_Color() const { return ToSDL_Color(); }

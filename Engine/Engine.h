@@ -46,6 +46,8 @@
 
 #include "box2d\box2d.h"
 
+#define REGISTER_CLASS(T) ObjectFactory::Instance().Register<T>(#T);
+
 namespace nh
 {
 	typedef Singleton<Factory<std::string, Object>> ObjectFactory;

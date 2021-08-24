@@ -43,6 +43,7 @@ namespace nh
 		bool operator != (const Vector2& v) const	{ return x != v.x || y != v.y; }
 
 		friend std::istream& operator>> (std::istream& stream, Vector2& v);
+		friend std::ostream& operator<< (std::ostream& stream, Vector2& v);
 
 		float Length() const;
 		float LengthSqr() const;
