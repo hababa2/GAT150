@@ -37,6 +37,9 @@ namespace nh
 		template<typename T>
 		T* AddComponent();
 
+		template<typename T>
+		T* GetComponent();
+
 	public:
 		bool destroy{ false };
 		std::string tag;
@@ -60,5 +63,20 @@ namespace nh
 		components.push_back(std::move(component));
 
 		return c;
+	}
+
+	template<typename T>
+	inline T* Actor::GetComponent()
+	{
+		for (auto& c : components)
+		{
+			T* p = dynamic_cast<T*>(c.get());
+			if (p)
+			{
+				return p;
+			}
+		}
+
+		return nullptr;
 	}
 }

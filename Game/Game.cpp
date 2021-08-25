@@ -1,10 +1,13 @@
 #include "Game.h"
+#include "GameComponent\PlayerComponent.h"
 
 void Game::Initialize()
 {
 	engine = std::make_unique<nh::Engine>();
 	engine->Startup();
 	engine->Get<nh::Renderer>()->Create("GAT150", 800, 600);
+
+	REGISTER_CLASS(PlayerComponent);
 
 	scene = std::make_unique<nh::Scene>();
 	scene->engine = engine.get();

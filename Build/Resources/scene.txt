@@ -12,6 +12,10 @@
          },
          "components":[
             {
+                "type":"PlayerComponent",
+                "speed":50
+            },
+            {
                "type":"SpriteAnimationComponent",
                "textureName":"Textures/Sparkle.png",
                "fps":24,
@@ -19,7 +23,34 @@
                "framesY":8
             },
             {
-               "type":"PhysicsComponent"
+               "type":"RBPhysicsComponent",
+               "data.isDynamic":true,
+               "data.density":1,
+               "data.lockAngle":true,
+               "data.size":[64, 64]
+            }
+         ]
+      },
+      {
+         "type":"Actor",
+         "tag":"Ground",
+         "transform":{
+            "position":[
+               400,
+               590
+            ],
+            "rotation":0
+         },
+         "components":[
+            {
+               "type":"SpriteComponent",
+               "textureName":"Textures/Ground.png"
+            },
+            {
+               "type":"RBPhysicsComponent",
+               "data.isDynamic":false,
+               "data.density":1,
+               "data.size":[800, 20]
             }
          ]
       }

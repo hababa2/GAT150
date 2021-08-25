@@ -1,5 +1,7 @@
 #pragma once
 
+#include "box2d\box2d.h"
+
 #include <iostream>
 #include <cmath>
 
@@ -13,6 +15,7 @@ namespace nh
 		Vector2(float f) : x{ f }, y{ f }{}
 		Vector2(float x, float y) : x{ x }, y{ y }{}
 		Vector2(int x, int y) : x{ static_cast<float>(x) }, y{ static_cast<float>(y) }{}
+		Vector2(const b2Vec2& v2) : x{ v2.x }, y{ v2.y } {}
 
 		void Set(float _x, float _y) { x = _x; y = _y; }
 
@@ -44,6 +47,8 @@ namespace nh
 
 		friend std::istream& operator>> (std::istream& stream, Vector2& v);
 		friend std::ostream& operator<< (std::ostream& stream, Vector2& v);
+
+		operator b2Vec2() const { return { x, y }; }
 
 		float Length() const;
 		float LengthSqr() const;

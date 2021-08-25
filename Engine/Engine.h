@@ -24,6 +24,9 @@
 #include "Graphics\Texture.h"
 #include "Graphics\ParticleSystem.h"
 
+//Physics
+#include "Physics\PhysicsSystem.h"
+
 //Audio
 #include "Audio\AudioSystem.h"
 
@@ -40,6 +43,7 @@
 //Components
 #include "Component\SpriteAnimationComponent.h"
 #include "Component\PhysicsComponent.h"
+#include "Component\RBPhysicsComponent.h"
 
 #include <vector>
 #include <memory>
@@ -47,7 +51,7 @@
 
 #include "box2d\box2d.h"
 
-#define REGISTER_CLASS(T) ObjectFactory::Instance().Register<T>(#T)
+#define REGISTER_CLASS(T) nh::ObjectFactory::Instance().Register<T>(#T)
 
 namespace nh
 {
