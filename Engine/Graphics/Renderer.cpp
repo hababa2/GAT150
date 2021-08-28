@@ -63,10 +63,10 @@ namespace nh
 		SDL_RenderCopyEx(renderer, texture->texture, nullptr, &dest, RadToDeg(angle), nullptr, SDL_FLIP_NONE);
 	}
 
-	void Renderer::Draw(std::shared_ptr<Texture> texture, const Transform& transform, bool center)
+	void Renderer::Draw(std::shared_ptr<Texture> texture, const Transform& transform)
 	{
 		Vector2 size = texture->GetSize() * transform.scale;
-		SDL_Rect dest{ (int)transform.position.x - (size.x / 2.0f * center), (int)transform.position.y - (size.y / 2.0f * center), (int)size.x, (int)size.y };
+		SDL_Rect dest{ (int)transform.position.x - (size.x / 2.0f), (int)transform.position.y - (size.y / 2.0f), (int)size.x, (int)size.y };
 
 		SDL_RenderCopyEx(renderer, texture->texture, nullptr, &dest, RadToDeg(transform.rotation), nullptr, SDL_FLIP_NONE);
 	}

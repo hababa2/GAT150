@@ -1,4 +1,5 @@
 #include "EventSystem.h"
+#include "Object\Object.h"
 
 namespace nh
 {
@@ -17,9 +18,9 @@ namespace nh
 		
 	}
 
-	void EventSystem::Subscribe(const std::string& name, function_t fn)
+	void EventSystem::Subscribe(const std::string& name, function_t fn, Object* receiver)
 	{
-		observers[name].push_back({ fn });
+		observers[name].push_back({ fn, receiver });
 	}
 
 	void EventSystem::Notify(const Event& e)
@@ -28,7 +29,10 @@ namespace nh
 
 		for (const auto& o : eventObservers)
 		{
-			o.fn(e);
+			if (e.receiver == nullptr || e.receiver == o.receiver)
+			{
+				o.fn(e);
+			}
 		}
 	}
 }

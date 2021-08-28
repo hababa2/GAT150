@@ -6,5 +6,7 @@ namespace nh
 	{
 	public:
 		virtual ~Object() {}
+
+		virtual void Create() {}
 	};
 }

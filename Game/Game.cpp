@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "GameComponent\PlayerComponent.h"
+#include "GameComponent\EnemyComponent.h"
 
 void Game::Initialize()
 {
@@ -8,6 +9,7 @@ void Game::Initialize()
 	engine->Get<nh::Renderer>()->Create("GAT150", 800, 600);
 
 	REGISTER_CLASS(PlayerComponent);
+	REGISTER_CLASS(EnemyComponent);
 
 	scene = std::make_unique<nh::Scene>();
 	scene->engine = engine.get();

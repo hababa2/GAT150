@@ -36,15 +36,32 @@ namespace nh
 		}
 	}
 
+	void Actor::BeginContact(Actor* other)
+	{
+		Event event;
+
+		event.name = "collision_enter";
+		event.data = other;
+		event.receiver = this;
+
+		scene->engine->Get<EventSystem>()->Notify(event);
+	}
+
+	void Actor::EndContact(Actor* other)
+	{
+		Event event;
+
+		event.name = "collision_exit";
+		event.data = other;
+		event.receiver = this;
+
+		scene->engine->Get<EventSystem>()->Notify(event);
+	}
+
 	void Actor::AddChild(std::unique_ptr<Actor> a)
 	{
 		a->parent = this;
 		children.push_back(std::move(a));
-	}
-
-	float Actor::GetRadius()
-	{
-		return 0.0f;
 	}
 
 	void Actor::AddComponent(std::unique_ptr<Component> cmp)
@@ -61,6 +78,7 @@ namespace nh
 	bool Actor::Read(const rapidjson::Value& value)
 	{
 		JSON_READ(value, tag);
+		JSON_READ(value, name);
 		if (value.HasMember("transform"))
 		{
 			transform.Read(value["transform"]);
@@ -78,6 +96,7 @@ namespace nh
 				{
 					component->owner = this;
 					component->Read(c);
+					component->Create();
 					AddComponent(std::move(component));
 				}
 			}

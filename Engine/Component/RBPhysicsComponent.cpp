@@ -8,6 +8,8 @@ namespace nh
 		if (!body)
 		{
 			body = owner->scene->engine->Get<PhysicsSystem>()->CreateBody(owner->transform.position, owner->transform.rotation, data, owner);
+			body->SetGravityScale(data.gravityScale);
+			body->SetLinearDamping(0.7f);
 		}
 
 		owner->transform.position = PhysicsSystem::WorldToScreen(body->GetPosition());

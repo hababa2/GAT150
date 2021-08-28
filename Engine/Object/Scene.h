@@ -26,6 +26,8 @@ namespace nh
 		bool Write(const rapidjson::Value& value) const override;
 		bool Read(const rapidjson::Value& value) override;
 
+		Actor* FindActor(const std::string& name);
+
 		template<typename T>
 		T* GetActor() const;
 		template<typename T>

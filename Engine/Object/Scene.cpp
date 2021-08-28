@@ -9,17 +9,6 @@ namespace nh
 		for (auto it = actors.begin(); it != actors.end();)
 		{
 			(*it)->Update(dt);
-			auto it2 = it;
-			++it2;
-			for (; it2 != actors.end(); ++it2)
-			{
-				if ((!it->get()->destroy && !it2->get()->destroy) && 
-					nh::Vector2::Distance((*it)->transform.position, (*it2)->transform.position) < (it->get()->GetRadius() + it2->get()->GetRadius()))
-				{
-					it->get()->OnCollision(it2->get());
-					it2->get()->OnCollision(it->get());
-				}
-			}
 
 			if ((*it)->destroy) { it = actors.erase(it); }
 			else { ++it; }
@@ -78,5 +67,18 @@ namespace nh
 		}
 
 		return true;
+	}
+
+	Actor* Scene::FindActor(const std::string& name)
+	{
+		for (auto& a : actors)
+		{
+			if (a->name == name)
+			{
+				return a.get();
+			}
+		}
+
+		return nullptr;
 	}
 }

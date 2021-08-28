@@ -1,7 +1,6 @@
 #pragma once
 
 #include "System.h"
-#include "Object\Actor.h"
 
 #include <string>
 #include <functional>
@@ -11,10 +10,13 @@
 
 namespace nh
 {
+	class Object;
+
 	struct Event
 	{
 		std::string name;
-		std::variant<int, bool, float, std::string, Actor*> data;
+		Object* receiver{ nullptr };
+		std::variant<int, bool, float, std::string, void*> data;
 	};
 
 	class EventSystem : public System
@@ -26,6 +28,7 @@ namespace nh
 		struct Observer
 		{
 			function_t fn;
+			Object* receiver{ nullptr };
 		};
 
 	public:
@@ -33,7 +36,7 @@ namespace nh
 		void Shutdown() override;
 		void Update(float dt) override;
 
-		void Subscribe(const std::string& name, function_t fn);
+		void Subscribe(const std::string& name, function_t fn, Object* receiver = nullptr);
 		void Notify(const Event& e);
 
 	private:

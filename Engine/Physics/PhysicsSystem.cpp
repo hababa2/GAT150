@@ -2,7 +2,7 @@
 #include "Object\Actor.h"
 #include "Math\MathUtils.h"
 
-const float nh::PhysicsSystem::pixelsPerUnit = 64.0f;
+const float nh::PhysicsSystem::pixelsPerUnit = 32.0f;
 
 namespace nh
 {
@@ -10,6 +10,9 @@ namespace nh
     {
         b2Vec2 gravity{ 0, 10 };
         world = std::make_unique<b2World>(gravity);
+        contactListener = std::make_unique<ContactListener>();
+        world->SetContactListener(contactListener.get());
+
     }
 
     void PhysicsSystem::Shutdown()

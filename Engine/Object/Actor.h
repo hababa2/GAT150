@@ -24,11 +24,10 @@ namespace nh
 		void Update(float dt);
 		void Draw(Renderer* renderer);
 
-		void OnCollision(Actor* actor) {}
+		void BeginContact(Actor* other);
+		void EndContact(Actor* other);
 
 		void AddChild(std::unique_ptr<Actor> a);
-
-		float GetRadius();
 
 		virtual bool Write(const rapidjson::Value& value) const override;
 		virtual bool Read(const rapidjson::Value& value) override;
@@ -42,6 +41,7 @@ namespace nh
 
 	public:
 		bool destroy{ false };
+		std::string name;
 		std::string tag;
 
 		Transform transform;
