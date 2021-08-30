@@ -44,7 +44,10 @@ namespace nh
 		event.data = other;
 		event.receiver = this;
 
-		scene->engine->Get<EventSystem>()->Notify(event);
+		if (!destroy)
+		{
+			scene->engine->Get<EventSystem>()->Notify(event);
+		}
 	}
 
 	void Actor::EndContact(Actor* other)
@@ -55,7 +58,10 @@ namespace nh
 		event.data = other;
 		event.receiver = this;
 
-		scene->engine->Get<EventSystem>()->Notify(event);
+		if (!destroy)
+		{
+			scene->engine->Get<EventSystem>()->Notify(event);
+		}
 	}
 
 	void Actor::AddChild(std::unique_ptr<Actor> a)

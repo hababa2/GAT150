@@ -61,11 +61,6 @@
                   32,
                   32
                ]
-            },
-            {
-               "type":"AudioComponent",
-               "name":"Audio/grunt.wav",
-               "playOnAwake":true
             }
          ]
       },
@@ -157,6 +152,44 @@
                   1
                ],
                "text":"Hello World!"
+            }
+         ]
+      },
+      {
+         "type":"Actor",
+         "tag":"coin",
+         "transform":{
+            "position":[
+               250,
+               550
+            ],
+            "rotation":0,
+            "scale":[
+               1,
+               1
+            ]
+         },
+         "components":[
+            {
+               "type":"SpriteAnimationComponent",
+               "textureName":"Textures/coin.png",
+               "fps":10,
+               "framesX":8,
+               "framesY":1,
+               "startFrame":0
+            },
+            {
+               "type":"RBPhysicsComponent",
+               "data.isDynamic":false,
+               "data.isSensor":true,
+               "data.density":1,
+               "data.lockAngle":true,
+               "data.restitution":0.1,
+               "data.gravityScale":0,
+               "data.size":[
+                  32,
+                  32
+               ]
             }
          ]
       }
