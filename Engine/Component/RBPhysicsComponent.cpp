@@ -3,6 +3,14 @@
 
 namespace nh
 {
+	RBPhysicsComponent::~RBPhysicsComponent()
+	{
+		if (body)
+		{
+			owner->scene->engine->Get<PhysicsSystem>()->DestroyBody(body);
+		}
+	}
+
 	void RBPhysicsComponent::Update()
 	{
 		if (!body)

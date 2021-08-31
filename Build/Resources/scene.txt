@@ -157,7 +157,9 @@
       },
       {
          "type":"Actor",
-         "tag":"coin",
+         "tag":"Pickup",
+         "name":"Coin",
+         "prototype":true,
          "transform":{
             "position":[
                250,
@@ -177,6 +179,9 @@
                "framesX":8,
                "framesY":1,
                "startFrame":0
+            },
+            {
+               "type":"PickupComponent"
             },
             {
                "type":"RBPhysicsComponent",

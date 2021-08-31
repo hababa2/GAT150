@@ -4,6 +4,24 @@
 
 namespace nh
 {
+	Actor::Actor(const Actor& other)
+	{
+		destroy = other.destroy;
+		name = other.name;
+		tag = other.tag;
+
+		transform = other.transform;
+		scene = other.scene;
+
+		for (auto& c : other.components)
+		{
+			auto clone = std::unique_ptr<Component>(dynamic_cast<Component*>(c->Clone().release()));
+			clone->owner = this;
+			clone->Create();
+			AddComponent(std::move(clone));
+		}
+	}
+
 	void Actor::Update(float dt)
 	{
 		for (auto& c : components)

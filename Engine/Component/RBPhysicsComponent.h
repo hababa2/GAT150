@@ -8,6 +8,10 @@ namespace nh
 	class RBPhysicsComponent : public PhysicsComponent
 	{
 	public:
+		std::unique_ptr<Object> Clone() const { return std::make_unique<RBPhysicsComponent>(*this); }
+
+		virtual ~RBPhysicsComponent();
+
 		virtual void Update() override;
 		void ApplyForce(const Vector2& force) override;
 

@@ -23,6 +23,22 @@ namespace nh
 		observers[name].push_back({ fn, receiver });
 	}
 
+	void EventSystem::Unsubscribe(const std::string& name, Object* receiver)
+	{
+		auto& eventObservers = observers[name];
+		for (auto iter = eventObservers.begin(); iter != eventObservers.end();)
+		{
+			if (iter->receiver == receiver)
+			{
+				iter = eventObservers.erase(iter);
+			}
+			else
+			{
+				iter++;
+			}
+		}
+	}
+
 	void EventSystem::Notify(const Event& e)
 	{
 		auto& eventObservers = observers[e.name];

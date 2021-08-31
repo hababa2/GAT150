@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "GameComponent\PlayerComponent.h"
 #include "GameComponent\EnemyComponent.h"
+#include "GameComponent\PickupComponent.h"
 
 void Game::Initialize()
 {
@@ -10,6 +11,7 @@ void Game::Initialize()
 
 	REGISTER_CLASS(PlayerComponent);
 	REGISTER_CLASS(EnemyComponent);
+	REGISTER_CLASS(PickupComponent);
 
 	scene = std::make_unique<nh::Scene>();
 	scene->engine = engine.get();
@@ -20,6 +22,14 @@ void Game::Initialize()
 	rapidjson::Document doc;
 	assert(nh::json::Load("scene.txt", doc));
 	scene->Read(doc);
+
+	for (int i = 0; i < 10; ++i)
+	{
+		auto actor = nh::ObjectFactory::Instance().Create<nh::Actor>("Coin");
+		actor->transform.position = nh::Vector2{ nh::RandomRange(0, 800), nh::RandomRange(0, 600) };
+
+		scene->AddActor(std::move(actor));
+	}
 }
 
 void Game::Shutdown()

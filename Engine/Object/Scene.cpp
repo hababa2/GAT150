@@ -56,12 +56,24 @@ namespace nh
 				std::string type;
 				JSON_READ(a, type);
 
+				bool prototype = false;
+				JSON_READ(a, prototype);
+
 				auto actor = ObjectFactory::Instance().Create<Actor>(type);
 				if (actor)
 				{
 					actor->scene = this;
 					actor->Read(a);
-					AddActor(std::move(actor));
+
+					if (prototype)
+					{
+						std::string name = actor->name;
+						ObjectFactory::Instance().RegisterPrototype<Actor>(name, std::move(actor));
+					}
+					else
+					{
+						AddActor(std::move(actor));
+					}
 				}
 			}
 		}

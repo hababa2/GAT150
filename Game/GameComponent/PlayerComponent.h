@@ -8,6 +8,9 @@
 class PlayerComponent : public nh::Component
 {
 public:
+	std::unique_ptr<Object> Clone() const { return std::make_unique<PlayerComponent>(*this); }
+	virtual ~PlayerComponent();
+
 	void Create() override;
 	virtual void Update() override;
 
