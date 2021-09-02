@@ -4,6 +4,7 @@
          "type":"Actor",
          "name":"Player",
          "tag":"Player",
+         "prototype":true,
          "transform":{
             "position":[
                400,
@@ -53,26 +54,23 @@
             {
                "type":"RBPhysicsComponent",
                "data.isDynamic":true,
-               "data.density":1,
+               "data.density":0.5,
                "data.lockAngle":true,
                "data.restitution":0.1,
                "data.gravityScale":2,
                "data.size":[
                   32,
-                  32
+                  48
                ]
             }
          ]
       },
       {
          "type":"Actor",
+         "name":"Bat",
          "tag":"Enemy",
+         "prototype":true,
          "transform":{
-            "position":[
-               500,
-               200
-            ],
-            "rotation":0,
             "scale":[
                2,
                2
@@ -108,55 +106,6 @@
       },
       {
          "type":"Actor",
-         "tag":"Ground",
-         "transform":{
-            "position":[
-               400,
-               580
-            ],
-            "rotation":0
-         },
-         "components":[
-            {
-               "type":"SpriteComponent",
-               "textureName":"Textures/Ground.png"
-            },
-            {
-               "type":"RBPhysicsComponent",
-               "data.isDynamic":false,
-               "data.density":1,
-               "data.size":[
-                  800,
-                  20
-               ]
-            }
-         ]
-      },
-      {
-         "type":"Actor",
-         "name":"Score",
-         "transform":{
-            "position":[
-               60,
-               20
-            ]
-         },
-         "components":[
-            {
-               "type":"TextComponent",
-               "fontName":"Fonts/CHELON.ttf",
-               "fontSize":16,
-               "color":[
-                  1,
-                  1,
-                  1
-               ],
-               "text":"Hello World!"
-            }
-         ]
-      },
-      {
-         "type":"Actor",
          "tag":"Pickup",
          "name":"Coin",
          "prototype":true,
@@ -185,15 +134,143 @@
             },
             {
                "type":"RBPhysicsComponent",
-               "data.isDynamic":false,
-               "data.isSensor":true,
+               "data.isDynamic":true,
+               "data.isSensor":false,
                "data.density":1,
                "data.lockAngle":true,
                "data.restitution":0.1,
-               "data.gravityScale":0,
+               "data.gravityScale":1,
                "data.size":[
                   32,
                   32
+               ]
+            }
+         ]
+      },
+      {
+         "type":"Actor",
+         "tag":"Pickup",
+         "name":"PowerUp",
+         "prototype":true,
+         "components":[
+            {
+               "type":"SpriteAnimationComponent",
+               "textureName":"Textures/coin.png",
+               "fps":10,
+               "framesX":8,
+               "framesY":1,
+               "startFrame":0
+            },
+            {
+               "type":"PickupComponent"
+            },
+            {
+               "type":"RBPhysicsComponent",
+               "data.isDynamic":true,
+               "data.isSensor":false,
+               "data.density":1,
+               "data.lockAngle":true,
+               "data.restitution":0.1,
+               "data.gravityScale":1,
+               "data.size":[
+                  32,
+                  32
+               ]
+            }
+         ]
+      },
+      {
+         "type":"Actor",
+         "tag":"Projectile",
+         "name":"Bullet",
+         "prototype":true,
+         "components":[
+            {
+               "type":"SpriteComponent",
+               "textureName":"Textures/AlienLaser.png"
+            }
+         ]
+      },
+      {
+         "type":"Actor",
+         "name":"grass",
+         "tag":"Ground",
+         "prototype":true,
+         "transform":{
+            "scale":[
+               2,
+               2
+            ]
+         },
+         "components":[
+            {
+               "type":"SpriteComponent",
+               "textureName":"Textures/tileset2.png",
+               "rect":[ 160, 0, 32, 32 ]
+            },
+            {
+               "type":"RBPhysicsComponent",
+               "data.isDynamic":false,
+               "data.density":1,
+               "data.size":[
+                  64,
+                  64
+               ]
+            }
+         ]
+      },
+      {
+         "type":"Actor",
+         "name":"dirt",
+         "tag":"Ground",
+         "prototype":true,
+         "transform":{
+            "scale":[
+               2,
+               2
+            ]
+         },
+         "components":[
+            {
+               "type":"SpriteComponent",
+               "textureName":"Textures/tileset2.png",
+               "rect":[ 384, 32, 32, 32 ]
+            },
+            {
+               "type":"RBPhysicsComponent",
+               "data.isDynamic":false,
+               "data.density":1,
+               "data.size":[
+                  64,
+                  64
+               ]
+            }
+         ]
+      },
+      {
+         "type":"Actor",
+         "name":"stone",
+         "tag":"Ground",
+         "prototype":true,
+         "transform":{
+            "scale":[
+               2,
+               2
+            ]
+         },
+         "components":[
+            {
+               "type":"SpriteComponent",
+               "textureName":"Textures/tileset2.png",
+               "rect":[ 416, 0, 32, 32 ]
+            },
+            {
+               "type":"RBPhysicsComponent",
+               "data.isDynamic":false,
+               "data.density":1,
+               "data.size":[
+                  64,
+                  64
                ]
             }
          ]

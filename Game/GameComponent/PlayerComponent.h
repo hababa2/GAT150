@@ -22,7 +22,7 @@ public:
 
 public:
 	float speed{ 0.0f };
-	
+
 private:
 	std::list<nh::Actor*> contacts;
 };

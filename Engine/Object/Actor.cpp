@@ -24,33 +24,39 @@ namespace nh
 
 	void Actor::Update(float dt)
 	{
-		for (auto& c : components)
+		if (active)
 		{
-			c->Update();
-		}
+			for (auto& c : components)
+			{
+				c->Update();
+			}
 
-		transform.Update();
+			transform.Update();
 
-		for (auto& c : children)
-		{
-			c->transform.Update(transform.matrix);
+			for (auto& c : children)
+			{
+				c->transform.Update(transform.matrix);
+			}
 		}
 	}
 
 	void Actor::Draw(Renderer* renderer)
 	{
-		for (auto& c : components)
+		if (active)
 		{
-			GraphicsComponent* g;
-			if (g = dynamic_cast<GraphicsComponent*>(c.get()))
+			for (auto& c : components)
 			{
-				g->Draw(renderer);
+				GraphicsComponent* g;
+				if (g = dynamic_cast<GraphicsComponent*>(c.get()))
+				{
+					g->Draw(renderer);
+				}
 			}
-		}
 
-		for (auto& c : children)
-		{
-			c->Draw(renderer);
+			for (auto& c : children)
+			{
+				c->Draw(renderer);
+			}
 		}
 	}
 

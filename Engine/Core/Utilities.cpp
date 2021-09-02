@@ -25,4 +25,11 @@ namespace nh
             return (std::tolower(c1) == std::tolower(c2));
         });
     }
+
+    std::string UniqueString(const std::string& string)
+    {
+        static int i = 0;
+
+        return string + std::to_string(i++);
+    }
 }

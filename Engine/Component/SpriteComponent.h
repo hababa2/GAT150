@@ -19,5 +19,6 @@ namespace nh
 
 	public:
 		std::shared_ptr<class Texture> texture;
+		SDL_Rect rect;
 	};
 }

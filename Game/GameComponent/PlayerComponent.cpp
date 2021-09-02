@@ -42,7 +42,14 @@ void PlayerComponent::OnCollisionEnter(const Event& e)
 
     if (ICompare(a->tag, "ground")) { contacts.push_back(a); }
 
-    if (ICompare(a->tag, "enemy")) { owner->scene->engine->Get<AudioSystem>()->PlayAudio("hurt"); }
+    if (ICompare(a->tag, "enemy")) 
+    {
+        Event e;
+        e.name = "player_hurt";
+        a->destroy = true;
+
+        owner->scene->engine->Get<EventSystem>()->Notify(e);
+    }
 }
 
 void PlayerComponent::OnCollisionExit(const Event& e)

@@ -3,6 +3,11 @@
 
 namespace nh
 {
+	RBPhysicsComponent::RBPhysicsComponent(const RBPhysicsComponent& other)
+	{
+		data = other.data;
+	}
+
 	RBPhysicsComponent::~RBPhysicsComponent()
 	{
 		if (body)

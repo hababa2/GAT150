@@ -39,7 +39,6 @@ namespace nh
 		int endFrame{ 0 };
 		float frameTimer{ 0.0f };
 		float frameTime{ 1.0f / 24 };
-		SDL_Rect rect;
 
 		std::map<std::string, Sequence> sequences;
 		std::string sequenceName;

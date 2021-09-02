@@ -23,6 +23,21 @@ void PickupComponent::OnCollisionEnter(const nh::Event& e)
     {
         owner->destroy = true;
         owner->scene->engine->Get<AudioSystem>()->PlayAudio("coin");
+
+        Event e;
+
+        if (ICompare(owner->name, "PowerUp"))
+        {
+            e.name = "invincibility";
+            e.data = 100;
+        }
+        else
+        {
+            e.name = "add_score";
+            e.data = 10;
+        }
+
+        owner->scene->engine->Get<EventSystem>()->Notify(e);
     }
 }
 
